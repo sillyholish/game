@@ -1,20 +1,19 @@
-#include "board.h"
+#include "game.h"
 #include <iostream>
-
+#include <iomanip>
 
 void board() {
-    std::cout << "------GAME 2048------\n\n";
+    std::cout << std::setfill('-') << std::setw(20) << "\n";
     for(int i = 0; i < size; ++i) {
         for(int j = 0; j < size; ++j) {
             if(matrix[i][j] == 0) {
-                std::cout << "." << ' ';
+                std::cout << ".";
             } else {
-                std::cout << matrix[i][j] << ' ';
+                std::cout << matrix[i][j] << " ";
             }
         }
-        std::cout << std::endl;
+        std::cout << "\n";
     }
     addNewTile();
-    addNewTile();
-    std::cout << "------------------------\n";
+    std::cout << std::setfill('-') << std::setw(20) << "\n";
 }
