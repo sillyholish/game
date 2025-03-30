@@ -12,6 +12,7 @@ extern int matrix[size][size];
     void movedown();
     void moveright(int col[size]);
     void moveleft(int row[size]);
+    bool isWinGame(int matrix[][size]);
     bool canMove();
     bool isgameover();
     void moveleftall();
