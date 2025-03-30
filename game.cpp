@@ -3,36 +3,27 @@
 #include <iostream>
 #include <cstdlib>
 #include <time.h>
-#include <vector>
+#include <queue>
 
 int matrix[size][size] = {0}; // Khởi tạo ma trận 
 
 //hàm xử lí di chuyển của 1 hàng sang trái
 void moveleft(int row[size]) {
-    int tmp[size] = {0};
+    std::queue<int> q;
+    for (int i = 0; i < size; i++)
+        if (row[i] != 0) q.push(row[i]); // Đưa các số vào hàng đợi (bỏ qua số 0)
+
     int index = 0;
-
-    // Bước 1: Dồn số về bên trái
-    for(int i = 0; i < size; ++i) {
-        if(row[i] != 0) tmp[index++] = row[i];
-    }
-
-    // Bước 2: Gộp số giống nhau
-    for(int i = 0; i < size - 1; ++i) {
-        if(tmp[i] == tmp[i + 1] && tmp[i] != 0) {
-            tmp[i] *= 2;
-            tmp[i + 1] = 0;
+    while (!q.empty()) {
+        int first = q.front(); q.pop();
+        if (!q.empty() && first == q.front()) { // Nếu có 2 số giống nhau liên tiếp
+            first *= 2;
+            q.pop(); // Lấy số thứ 2 ra khỏi hàng đợi
         }
+        row[index++] = first;
     }
 
-    // Bước 3: Dồn số về trái một lần nữa
-    int res[size] = {0}, idx = 0;
-    for(int i = 0; i < size; ++i) {
-        if(tmp[i] != 0) res[idx++] = tmp[i];
-    }
-
-    // Bước 4: Sao chép lại vào hàng gốc
-    for(int i = 0; i < size; ++i) row[i] = res[i];
+    while (index < size) row[index++] = 0; // Điền lại các số 0 vào cuối hàng
 }
 
 
@@ -155,12 +146,28 @@ void hand() {
     }
     if(c == 'A') {
         moveleftall();
+        if(isWinGame(matrix)) {
+            std::cout << "You Win\n";
+            return;
+        }
     } else if(c == 'D') {
         moverightall();
+        if(isWinGame(matrix)) {
+            std::cout << "You Win\n";
+            return;
+        }
     } else if(c == 'W') {
         moveup();
+        if(isWinGame(matrix)) {
+            std::cout << "You Win\n";
+            return;
+        }
     } else if(c == 'S') {
         movedown();
+        if(isWinGame(matrix)) {
+            std::cout << "You Win\n";
+            return;
+        }
     }
     if(isgameover()) {
         std::cout << "\nGAME OVER\n";
@@ -190,3 +197,13 @@ void addNewTile() {
 
 }
 
+bool isWinGame(int matrix[][size]) {
+    for(int i = 0; i < size; ++i) {
+        for(int j = 0; j < size; ++j) {
+            if(matrix[i][j] == 2048) {
+                return true;
+            } 
+        }
+    }
+    return false;
+}
