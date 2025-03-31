@@ -14,6 +14,5 @@ void board() {
         }
         std::cout << "\n";
     }
-    addNewTile();
     std::cout << std::setfill('-') << std::setw(20) << "\n";
 }
