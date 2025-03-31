@@ -1,8 +1,11 @@
 #include "game.h"
 #include "board.h"
 #include <iostream>
+#include <cstdlib>
+#include <time.h>
 
 int main() {
+    std::srand(time(0));
     std::cout << "Welcome to 2048 Game!\n";
     
     // Khởi tạo bàn cờ ban đầu
@@ -18,6 +21,6 @@ int main() {
         board(); // Cập nhật bảng sau mỗi lượt đi
     }
 
-    std::cout << "Game Over! Thanks for playing.\n";
+    std::cout << "Thanks for playing.\n";
     return 0;
 }
