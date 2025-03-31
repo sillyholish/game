@@ -9,7 +9,7 @@ void board() {
             if(matrix[i][j] == 0) {
                 std::cout << ".";
             } else {
-                std::cout << matrix[i][j] << " ";
+                std::cout << matrix[i][j];
             }
         }
         std::cout << "\n";
