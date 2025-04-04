@@ -15,7 +15,7 @@ extern bool check;
     void movedown();
     bool canMove();
     bool isgameover();
-    void hand();
+    void hand(bool& check);
     void addNewTile();
     bool isWinGame();
 
