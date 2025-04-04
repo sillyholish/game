@@ -5,17 +5,18 @@
 const int size = 4;
 
 extern int matrix[size][size];
+extern bool check;
 
-    void addNewTile();
-    void hand();
+    void moveleft(int row[size]);
+    void moveleftall();
+    void moveright(int col[size]);
+    void moverightall();
     void moveup();
     void movedown();
-    void moveright(int col[size]);
-    void moveleft(int row[size]);
-    bool isWinGame(int matrix[][size]);
     bool canMove();
     bool isgameover();
-    void moveleftall();
-    void moverightall();
+    void hand();
+    void addNewTile();
+    bool isWinGame();
 
-#endif
+#endif 
