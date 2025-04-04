@@ -138,7 +138,6 @@ void hand() {
     std::cin >> c;
     c = (char)std::toupper(c); //Biến đổi thanh in hoa nếu người dùng lỡ nhập kí tự thường
     while(c != 'W' && c != 'S' && c != 'A' && c != 'D') {
-        check = false;
         std::cout << "Ban vua nhap ki tu khong hop le. De tiep tuc tro choi, hay nhap ki tu dung vơi huong dan\n";
         std::cout << "Con neu ban muon ket thuc tro choi thi vui long bam so 0\n";
         std::cin >> c;
@@ -154,10 +153,6 @@ void hand() {
     }
     if(c == 'A') {
         moveleftall();
-        if(isWinGame()) {
-            std::cout << "You Win\n";
-            return;
-        }
     } else if(c == 'D') {
         moverightall();
     } else if(c == 'W') {
