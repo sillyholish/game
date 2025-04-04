@@ -1,11 +1,12 @@
 #include "game.h"
 #include <algorithm>
 #include <iostream>
-#include <cstdlib>
-#include <time.h>
 #include <queue>
 
 int matrix[size][size] = {0}; // Khởi tạo ma trận 
+
+long long score = 0; //Biến dùng để lưu điểm số, mỗi lần gộp
+bool check = false; //Biến dùng để kiểm tra 2 phần
 
 //hàm xử lí di chuyển của 1 hàng sang trái
 void moveleft(int row[size]) {
@@ -18,6 +19,7 @@ void moveleft(int row[size]) {
         int first = q.front(); q.pop();
         if (!q.empty() && first == q.front()) { // Nếu có 2 số giống nhau liên tiếp
             first *= 2;
+            score += first;
             q.pop(); // Lấy số thứ 2 ra khỏi hàng đợi
         }
         row[index++] = first;
@@ -136,68 +138,64 @@ void hand() {
     std::cin >> c;
     c = (char)std::toupper(c); //Biến đổi thanh in hoa nếu người dùng lỡ nhập kí tự thường
     while(c != 'W' && c != 'S' && c != 'A' && c != 'D') {
+        check = false;
         std::cout << "Ban vua nhap ki tu khong hop le. De tiep tuc tro choi, hay nhap ki tu dung vơi huong dan\n";
         std::cout << "Con neu ban muon ket thuc tro choi thi vui long bam so 0\n";
         std::cin >> c;
         if(c == '0') {
+            check = true;
             std::cout << "Tro choi da ket thuc dung voi yeu cau!\n";
             return;
+        }
+        c = (char)std::toupper(c);
+        if(c == 'W' || c == 'A' || c == 'D' || c == 'S') {
+            break;
         }
     }
     if(c == 'A') {
         moveleftall();
-        if(isWinGame(matrix)) {
+        if(isWinGame()) {
             std::cout << "You Win\n";
             return;
         }
     } else if(c == 'D') {
         moverightall();
-        if(isWinGame(matrix)) {
-            std::cout << "You Win\n";
-            return;
-        }
     } else if(c == 'W') {
         moveup();
-        if(isWinGame(matrix)) {
-            std::cout << "You Win\n";
-            return;
-        }
     } else if(c == 'S') {
         movedown();
-        if(isWinGame(matrix)) {
-            std::cout << "You Win\n";
-            return;
-        }
     }
     if(isgameover()) {
         std::cout << "\nGAME OVER\n";
+    } else if(isWinGame()){
+        check = true;
+        std::cout << "You Win!!!";
+        return;
     } else {
         addNewTile(); //Thêm ô mới sau mỗi lần di chuyển 
     }
 }
 
 void addNewTile() {
-    std::srand(time(0));
-    std::vector< std::pair<int, int> > v;
-    int count = 0; //Dùng để đếm số ô trống
-    //Lưu tọa độ của các ô đang trống
-    for(int i = 0; i < size; ++i) {
-        for(int j = 0; j < size; ++j) {
-            if(matrix[i][j] == 0) {
-                v.push_back({i, j});
+    int emptyCells[size * size][2];
+    int count = 0;//Dùng để đánh dấu các ô trống
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if (matrix[i][j] == 0) {
+                emptyCells[count][0] = i;//Đánh dấu hoành độ
+                emptyCells[count][1] = j;//Đánh dấu tung độ
+                count++;
             }
         }
     }
-    count = v.size();
-    std::pair <int, int> ran = v[rand() % count]; //Lưu tọa độ ô trống của số ngẫu nhiên
-    int x = ran.first;
-    int y = ran.second;
-    //90% sẽ sinh 2, 10% sẽ sinh 4
-    matrix[x][y] = rand() % 10 < 9 ? 2 : 4; //Lưu 1 số ngẫu nhiên đã được phát sinh vào 1 ô được chọn ngẫu nhiên
-
+    if(count == 0) {
+        return;
+    }
+    int idx = rand() % count;
+    matrix[emptyCells[idx][0]][emptyCells[idx][1]] = (rand() % 10 == 0) ? 4 : 2;
 }
 
-bool isWinGame(int matrix[][size]) {
+bool isWinGame() {
     for(int i = 0; i < size; ++i) {
         for(int j = 0; j < size; ++j) {
             if(matrix[i][j] == 2048) {
