@@ -14,10 +14,9 @@ int main() {
     
     // Hiển thị bảng đầu tiên
     board();
-    int check = 0;
     // Vòng lặp chính của game (nếu chưa có)
     while (!isgameover()) {
-        hand();
+        hand(check);
         if(check == true) {
             return 0;
         }
