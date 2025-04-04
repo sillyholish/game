@@ -127,7 +127,7 @@ bool isgameover() {
     return !canMove(); //Nếu không còn khả năng di chuyển hay gộp nữa thì trò chơi kết thúc 
 }
 
-void hand() {
+void hand(bool& check) {
     char c;
     std::cout << "Nhap cach di chuyen theo huong dan duoi day: \n\n";
     std::cout << "Nhap W neu muon di chuyen len\n";
